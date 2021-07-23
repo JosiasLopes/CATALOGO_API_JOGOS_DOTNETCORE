@@ -13,9 +13,11 @@ namespace catalogo_de_jogos_dotnet_core.Controllers.V1
     public class Jogos : ControllerBase
     {
         //Action result diz quais são os retornos, status e etc
+        [HttpGet]
         public async Task<ActionResult<List<Object>>> Obter()
         {
 
+            return Ok();
         }
     }
 }
