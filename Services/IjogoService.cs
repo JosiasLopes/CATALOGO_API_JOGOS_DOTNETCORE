@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace catalogo_de_jogos_dotnet_core.Services
 {
-    public interface IjogoService
+    public interface IjogoService:IDisposable
     {
         //fetito por paginação pois se houverem muitos registros
         //pode ocasionar lentidão

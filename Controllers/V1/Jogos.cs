@@ -1,5 +1,6 @@
 ﻿using catalogo_de_jogos_dotnet_core.DTO.InputModel;
 using catalogo_de_jogos_dotnet_core.DTO.ViewModel;
+using catalogo_de_jogos_dotnet_core.Exceptions;
 using catalogo_de_jogos_dotnet_core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ namespace catalogo_de_jogos_dotnet_core.Controllers.V1
                 var result = jogoServ.Inserir(jogo);
                 return Ok(result); //retorn o status da requisição
             }
-            catch (Exception e)
+            catch (JogoCadastroException e)
             {
                 return UnprocessableEntity("Já existe um registro com essas carateristicas");
             }
@@ -73,7 +74,7 @@ namespace catalogo_de_jogos_dotnet_core.Controllers.V1
 
                 return Ok(result);    //retorn o 
             }
-            catch (Exception e)
+            catch (JogoCadastroException e)
             {
                 return NotFound("Não foi possivel processar, ou esse registro ainda não existe");
             }
@@ -86,7 +87,7 @@ namespace catalogo_de_jogos_dotnet_core.Controllers.V1
                 var result = jogoServ.Update(idjogo, preco);
                 return Ok(result);
             }
-            catch (Exception e)
+            catch (JogoCadastroException e)
             {
                 return NotFound ("Não foi possivel processar, ou esse registro ainda não existe");
             }
@@ -100,7 +101,7 @@ namespace catalogo_de_jogos_dotnet_core.Controllers.V1
                 var result = jogoServ.Remove(idjogo);
                 return Ok(result);
             }
-            catch (Exception e)
+            catch (JogoCadastroException e)
             {
                 return NotFound("Não foi possivel processar, ou esse registro ainda não existe");
             }

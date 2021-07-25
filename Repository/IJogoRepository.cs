@@ -1,22 +1,18 @@
-﻿using System;
+﻿using catalogo_de_jogos_dotnet_core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace catalogo_de_jogos_dotnet_core.Repository
 {
-    public interface IJogoRepository
+    public interface IJogoRepository:IDisposable
     {
-        Task<List<Jogo>> Obter(int pagina, int qtd);
-
-        Task<List<Jogo>> Obter(Guid id);
-
-        Task<Jogo> Obter(string nome ,string produtora);
-
+        Task<List<Jogo>> Obter(int pagina, int quantidade);
+        Task<Jogo> Obter(Guid id);
+        Task<List<Jogo>> Obter(string nome, string produtora);
         Task Inserir(Jogo jogo);
-
-        Task Update(Jogo jogo);
-
-        Task Remover(Jogo jogo)
+        Task Atualizar(Jogo jogo);
+        Task Remover(Guid id);
     }
 }

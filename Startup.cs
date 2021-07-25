@@ -1,3 +1,6 @@
+using catalogo_de_jogos_dotnet_core.Repository;
+using catalogo_de_jogos_dotnet_core.Services;
+using ExemploApiCatalogoJogos.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,7 +29,8 @@ namespace catalogo_de_jogos_dotnet_core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<IjogoService,JogoService>();
+            services.AddScoped<IJogoRepository, JogoRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
