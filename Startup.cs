@@ -30,7 +30,7 @@ namespace catalogo_de_jogos_dotnet_core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IjogoService,JogoService>();
-            services.AddScoped<IJogoRepository, JogoRepository>();
+            services.AddScoped<IJogoRepository, JogoSqlServerRepository>();//vamos trocar para usar o bd JogoRepository
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

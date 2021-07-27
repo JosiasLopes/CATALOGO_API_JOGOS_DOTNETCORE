@@ -1,16 +1,17 @@
-﻿using ExemploApiCatalogoJogos.Entities;
+﻿using catalogo_de_jogos_dotnet_core.Entities;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace ExemploApiCatalogoJogos.Repositories
+namespace catalogo_de_jogos_dotnet_core.Repository
 {
     public class JogoSqlServerRepository : IJogoRepository
     {
         private readonly SqlConnection sqlConnection;
 
+        //a classe Iconfiguration permite pegar e passar configurações do apiSettings
         public JogoSqlServerRepository(IConfiguration configuration)
         {
             sqlConnection = new SqlConnection(configuration.GetConnectionString("Default"));
@@ -20,7 +21,7 @@ namespace ExemploApiCatalogoJogos.Repositories
         {
             var jogos = new List<Jogo>();
 
-            var comando = $"select * from Jogos order by id offset {((pagina - 1) * quantidade)} rows fetch next {quantidade} rows only";
+            var comando = $"select * from Jogo order by id offset {((pagina - 1) * quantidade)} rows fetch next {quantidade} rows only";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
@@ -46,7 +47,7 @@ namespace ExemploApiCatalogoJogos.Repositories
         {
             Jogo jogo = null;
 
-            var comando = $"select * from Jogos where Id = '{id}'";
+            var comando = $"select * from Jogo where Id = '{id}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
@@ -56,6 +57,7 @@ namespace ExemploApiCatalogoJogos.Repositories
             {
                 jogo = new Jogo
                 {
+                   
                     Id = (Guid)sqlDataReader["Id"],
                     Nome = (string)sqlDataReader["Nome"],
                     Produtora = (string)sqlDataReader["Produtora"],
@@ -72,7 +74,7 @@ namespace ExemploApiCatalogoJogos.Repositories
         {
             var jogos = new List<Jogo>();
 
-            var comando = $"select * from Jogos where Nome = '{nome}' and Produtora = '{produtora}'";
+            var comando = $"select * from Jogo where Nome = '{nome}' and Produtora = '{produtora}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
@@ -96,31 +98,31 @@ namespace ExemploApiCatalogoJogos.Repositories
 
         public async Task Inserir(Jogo jogo)
         {
-            var comando = $"insert Jogos (Id, Nome, Produtora, Preco) values ('{jogo.Id}', '{jogo.Nome}', '{jogo.Produtora}', {jogo.Preco.ToString().Replace(",", ".")})";
+            var comando = $"insert Jogo (Id, Nome, Produtora, Preco) values ('{jogo.Id}', '{jogo.Nome}', '{jogo.Produtora}', {jogo.Preco.ToString().Replace(",", ".")})";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
-            sqlCommand.ExecuteNonQuery();
+            sqlCommand.ExecuteNonQueryAsync();
             await sqlConnection.CloseAsync();
         }
 
         public async Task Atualizar(Jogo jogo)
         {
-            var comando = $"update Jogos set Nome = '{jogo.Nome}', Produtora = '{jogo.Produtora}', Preco = {jogo.Preco.ToString().Replace(",", ".")} where Id = '{jogo.Id}'";
+            var comando = $"update Jogo set Nome = '{jogo.Nome}', Produtora = '{jogo.Produtora}', Preco = {jogo.Preco.ToString().Replace(",", ".")} where Id = '{jogo.Id}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
-            sqlCommand.ExecuteNonQuery();
+            await sqlCommand.ExecuteNonQueryAsync();
             await sqlConnection.CloseAsync();
         }
 
         public async Task Remover(Guid id)
         {
-            var comando = $"delete from Jogos where Id = '{id}'";
+            var comando = $"delete from Jogo where Id = '{id}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
-            sqlCommand.ExecuteNonQuery();
+            await sqlCommand.ExecuteNonQueryAsync();
             await sqlConnection.CloseAsync();
         }
 

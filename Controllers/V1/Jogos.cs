@@ -55,7 +55,7 @@ namespace catalogo_de_jogos_dotnet_core.Controllers.V1
         {
             try
             {
-                var result = jogoServ.Inserir(jogo);
+                var result = await jogoServ.Inserir(jogo);
                 return Ok(result); //retorn o status da requisição
             }
             catch (JogoCadastroException e)
@@ -66,7 +66,7 @@ namespace catalogo_de_jogos_dotnet_core.Controllers.V1
         }
 
         [HttpPut("(idjogo:guid)")]  //o put atualiza todo o recurso
-        public async Task<ActionResult<JogoViewModel>> updateJogo([FromRoute] Guid idjogo, [FromRoute] JogoInputModel jogo)
+        public async Task<ActionResult<JogoViewModel>> updateJogo([FromRoute] Guid idjogo, [FromBody] JogoInputModel jogo)
         {
             try
             {

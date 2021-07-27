@@ -68,7 +68,18 @@ namespace catalogo_de_jogos_dotnet_core.Services
 
         public async Task<JogoViewModel> Obter(Guid id)
         {
-            throw new NotImplementedException();
+            var jogo = await jogoRepo.Obter(id);
+           
+            if (jogo == null)
+                return null;
+
+            return new JogoViewModel
+            {
+                Id = jogo.Id,
+                Nome = jogo.Nome,
+                Produtora = jogo.Produtora,
+                Preco = jogo.Preco
+            };
         }
 
         public async Task Remove(Guid id)
